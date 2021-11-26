@@ -7,18 +7,12 @@
   </rule>
   <rule id="move_piece" scope ="public">
     <item repeat="0-1">joga</item>
-    <ruleref uri="letter">
-      <tag>out = letter.out()</tag>
-    </ruleref>
-    <ruleref uri="number">
-      <tag>out = number.out()</tag>
+    <ruleref uri="piece">
+      <tag>out = piece.out()</tag>
     </ruleref>
     <item repeat="0-1">para</item>
-    <ruleref uri="letter">
-        <tag>out = letter.out()</tag>
-      </ruleref>
-      <ruleref uri="number">
-        <tag>out = number.out()</tag>
+    <ruleref uri="piece">
+        <tag>out = piece.out()</tag>
       </ruleref>
   </rule>
 
