@@ -5,120 +5,46 @@
       <item repeat="0-1"><ruleref uri="#move_piece"/><tag>out.move_piece=rules.latest();</tag></item>
     </item>
   </rule>
-  <rule id="move_piece">
-    <one-of>
-      <item>
-        joga<tag>out="joga"</tag>
-      </item>
-    </one-of>
-    <one-of>
-      <item>
-        à<tag>out="a"</tag>
-      </item>
-      <item>
-        bê<tag>out="b"</tag>
-      </item>
-      <item>
-        cê<tag>out="c"</tag>
-      </item>
-      <item>
-        dê<tag>out="d"</tag>
-      </item>
-      <item>
-        é<tag>out="e"</tag>
-      </item>
-      <item>
-        efe<tag>out="f"</tag>
-      </item>
-      <item>
-        gê<tag>out="g"</tag>
-      </item>
-      <item>
-        agá<tag>out="h"</tag>
-      </item>
-    </one-of>
-    <one-of>
-      <item>
-        um<tag>out="1"</tag>
-      </item>
-      <item>
-        dois<tag>out="2"</tag>
-      </item>
-      <item>
-        três<tag>out="3"</tag>
-      </item>
-      <item>
-        quatro<tag>out="4"</tag>
-      </item>
-      <item>
-        cinco<tag>out="5"</tag>
-      </item>
-      <item>
-        seis<tag>out="6"</tag>
-      </item>
-      <item>
-        sete<tag>out="7"</tag>
-      </item>
-      <item>
-        oito<tag>out="8"</tag>
-      </item>
-    </one-of>
-    <one-of>
-      <item>
-        para<tag>out="para"</tag>
-      </item>
-    </one-of>
-    <one-of>
-      <item>
-        à<tag>out="a"</tag>
-      </item>
-      <item>
-        bê<tag>out="b"</tag>
-      </item>
-      <item>
-        cê<tag>out="c"</tag>
-      </item>
-      <item>
-        dê<tag>out="d"</tag>
-      </item>
-      <item>
-        é<tag>out="e"</tag>
-      </item>
-      <item>
-        efe<tag>out="f"</tag>
-      </item>
-      <item>
-        gê<tag>out="g"</tag>
-      </item>
-      <item>
-        agá<tag>out="h"</tag>
-      </item>
-    </one-of>
-    <one-of>
-      <item>
-        um<tag>out="1"</tag>
-      </item>
-      <item>
-        dois<tag>out="2"</tag>
-      </item>
-      <item>
-        três<tag>out="3"</tag>
-      </item>
-      <item>
-        quatro<tag>out="4"</tag>
-      </item>
-      <item>
-        cinco<tag>out="5"</tag>
-      </item>
-      <item>
-        seis<tag>out="6"</tag>
-      </item>
-      <item>
-        sete<tag>out="7"</tag>
-      </item>
-      <item>
-        oito<tag>out="8"</tag>
-      </item>
-    </one-of>
+  <rule id="move_piece" scope ="public">
+    <item repeat="0-1">joga</item>
+    <ruleref uri="letter">
+      <tag>out = letter.out()</tag>
+    </ruleref>
+    <ruleref uri="number">
+      <tag>out = number.out()</tag>
+    </ruleref>
+    <item repeat="0-1">para</item>
+    <ruleref uri="letter">
+        <tag>out = letter.out()</tag>
+      </ruleref>
+      <ruleref uri="number">
+        <tag>out = number.out()</tag>
+      </ruleref>
+  </rule>
+
+  <rule id="number">
+      <one-of>
+        <item> um <tag> out = 1; </tag> </item>
+        <item> dois <tag> out = 2; </tag> </item>
+        <item> três <tag> out = 3; </tag> </item>
+        <item> quatro <tag> out = 4; </tag> </item>
+        <item> cinco <tag> out = 5; </tag> </item>
+        <item> seis <tag> out = 6; </tag> </item>
+        <item> sete <tag> out = 7; </tag> </item>
+        <item> oito <tag> out = 8; </tag> </item>
+      </one-of>
+  </rule>
+
+  <rule id="leter">
+      <one-of>
+        <item> à<tag>out="a"</tag></item>
+        <item> bê<tag>out="b"</tag></item>
+        <item> cê<tag>out="c"</tag></item>
+        <item> dê<tag>out="d"</tag> </item>
+        <item> é<tag>out="e"</tag></item>
+        <item> efe<tag>out="f"</tag></item>
+        <item> guê<tag>out="g"</tag></item>
+        <item>agá<tag>out="h"</tag></item>
+      </one-of>
   </rule>
 </grammar>
