@@ -79,14 +79,17 @@ namespace speechModality
 
             //SEND
             // IMPORTANT TO KEEP THE FORMAT {"recognized":["SHAPE","COLOR"]}
-            string json = "{ \"recognized\": [";
+            string json = "{\n ";
             foreach (var resultSemantic in e.Result.Semantics)
             {
-                json += "\"" + resultSemantic.Value.Value + "\", ";
-            }
-            json = json.Substring(0, json.Length - 2);
-            json += "] }";
+                foreach (var key in resultSemantic.Value)
+                {
+                    json += "\"" + key.Key + "\": " + "\"" + key.Value.Value + "\",\n ";
 
+                }
+            }
+            json = json.Substring(0, json.Length - 3);
+            json += "\n}";
             var exNot = lce.ExtensionNotification(e.Result.Audio.StartTime + "", e.Result.Audio.StartTime.Add(e.Result.Audio.Duration) + "", e.Result.Confidence, json);
             mmic.Send(exNot);
         }

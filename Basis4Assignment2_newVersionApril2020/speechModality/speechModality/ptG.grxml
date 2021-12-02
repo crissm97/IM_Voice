@@ -1,89 +1,70 @@
 ﻿<?xml version="1.0"?>
 <grammar xml:lang="pt-PT" version="1.0" xmlns="http://www.w3.org/2001/06/grammar" tag-format="semantics/1.0">
   <rule id="rootRule" scope="public">
+    <one-of>
+      <item repeat="0-1"> <ruleref uri="#move_piece"/> <tag> out.move_piece = rules.move_piece; </tag></item>
+      <item repeat="0-1"> <ruleref uri="#send_msg"/> <tag> out.send_msg = rules.send_msg; </tag></item>
+    </one-of>
+  </rule>
+  <rule id="move_piece">
+    <item> joga <tag> out.action = "joga"; </tag> </item>
     <item>
-      <item repeat="0-1"><ruleref uri="#move_piece"/><tag>out.piece=rule.move_piece;</tag></item>
+      <one-of>
+        <item> à <tag> out.initial_letter = "a"; </tag> </item>
+        <item> bê <tag> out.initial_letter = "b"; </tag> </item>
+        <item> cê <tag> out.initial_letter = "c"; </tag> </item>
+        <item> dê <tag> out.initial_letter = "d"; </tag> </item>
+        <item> é <tag> out.initial_letter = "e"; </tag> </item>
+        <item> efe <tag> out.initial_letter = "f"; </tag> </item>
+        <item> guê <tag> out.initial_letter = "g"; </tag> </item>
+        <item> agá <tag> out.initial_letter = "h"; </tag> </item>
+    </one-of>
+    </item>
+    <item>
+       <one-of>
+        <item> um <tag> out.initial_number = "1"; </tag> </item>
+        <item> dois <tag> out.initial_number = "2"; </tag> </item>
+        <item> três <tag> out.initial_number = "3"; </tag> </item>
+        <item> quatro <tag> out.initial_number = "4"; </tag> </item>
+        <item> cinco <tag> out.initial_number = "5"; </tag> </item>
+        <item> seis <tag> out.initial_number = "6"; </tag> </item>
+        <item> sete <tag> out.initial_number = "7"; </tag> </item>
+        <item> oito <tag> out.initial_number = "8"; </tag> </item>
+    </one-of>
+    </item>
+    <item repeat="0-1"> para </item>
+    <item>
+      <one-of>
+        <item> à <tag> out.final_letter = "a"; </tag> </item>
+        <item> bê <tag> out.final_letter = "b"; </tag> </item>
+        <item> cê <tag> out.final_letter = "c"; </tag> </item>
+        <item> dê <tag> out.final_letter = "d"; </tag> </item>
+        <item> é <tag> out.final_letter = "e"; </tag> </item>
+        <item> efe <tag> out.final_letter = "f"; </tag> </item>
+        <item> guê <tag> out.final_letter = "g"; </tag> </item>
+        <item> agá <tag> out.final_letter = "h"; </tag> </item>
+      </one-of>
+    </item>
+    <item>
+       <one-of>
+        <item> um <tag> out.final_number = "1"; </tag> </item>
+        <item> dois <tag> out.final_number = "2"; </tag> </item>
+        <item> três <tag> out.final_number = "3"; </tag> </item>
+        <item> quatro <tag> out.final._ = "4"; </tag> </item>
+        <item> cinco <tag> out.final_number = "5"; </tag> </item>
+        <item> seis <tag> out.final_number = "6"; </tag> </item>
+        <item> sete <tag> out.final_number = "7"; </tag> </item>
+        <item> oito <tag> out.final_number = "8"; </tag> </item>
+      </one-of>
     </item>
   </rule>
-  <rule id="move_piece" scope ="public">
-    <item repeat="0-1">joga</item>
-    <ruleref uri="piece">
-      <tag>out = piece.out()</tag>
-    </ruleref>
-    <item repeat="0-1">para</item>
-    <ruleref uri="piece">
-        <tag>out = piece.out()</tag>
-      </ruleref>
-  </rule>
-
-  <rule id="piece">
+  <rule id="send_msg">
+     <item> envia <tag> out.action = "envia"; </tag> </item>
+     <item>
       <one-of>
-        <item> à um <tag> out = a1; </tag> </item>
-        <item> à dois <tag> out = a2; </tag> </item>
-        <item> à três <tag> out = a3; </tag> </item>
-        <item> à quatro <tag> out = a4; </tag> </item>
-        <item> à cinco <tag> out = a5; </tag> </item>
-        <item> à seis <tag> out = a6; </tag> </item>
-        <item> à sete <tag> out = a7; </tag> </item>
-        <item> à oito <tag> out = a8; </tag> </item>
-        <item> bê um <tag> out = b1; </tag> </item>
-        <item> bê dois <tag> out = b2; </tag> </item>
-        <item> bê três <tag> out = b3; </tag> </item>
-        <item> bê quatro <tag> out = b4; </tag> </item>
-        <item> bê cinco <tag> out = b5; </tag> </item>
-        <item> bê seis <tag> out = b6; </tag> </item>
-        <item> bê sete <tag> out = b7; </tag> </item>
-        <item> bê oito <tag> out = b8; </tag> </item>
-        <item> cê um <tag> out = c1; </tag> </item>
-        <item> cê dois <tag> out = c2; </tag> </item>
-        <item> cê três <tag> out = c3; </tag> </item>
-        <item> cê quatro <tag> out = c4; </tag> </item>
-        <item> cê cinco <tag> out = c5; </tag> </item>
-        <item> cê seis <tag> out = c6; </tag> </item>
-        <item> cê sete <tag> out = c7; </tag> </item>
-        <item> cê oito <tag> out = c8; </tag> </item>
-        <item> dê um <tag> out = d1; </tag> </item>
-        <item> dê dois <tag> out = d2; </tag> </item>
-        <item> dê três <tag> out = d3; </tag> </item>
-        <item> dê quatro <tag> out = d4; </tag> </item>
-        <item> dê cinco <tag> out = d5; </tag> </item>
-        <item> dê seis <tag> out = d6; </tag> </item>
-        <item> dê sete <tag> out = d7; </tag> </item>
-        <item> dê oito <tag> out = d8; </tag> </item>
-        <item> é um <tag> out = e1; </tag> </item>
-        <item> é dois <tag> out = e2; </tag> </item>
-        <item> é três <tag> out = e3; </tag> </item>
-        <item> é quatro <tag> out = e4; </tag> </item>
-        <item> é cinco <tag> out = e5; </tag> </item>
-        <item> é seis <tag> out = e6; </tag> </item>
-        <item> é sete <tag> out = e7; </tag> </item>
-        <item> é oito <tag> out = e8; </tag> </item>
-        <item> efe um <tag> out = f1; </tag> </item>
-        <item> efe dois <tag> out = f2; </tag> </item>
-        <item> efe três <tag> out = f3; </tag> </item>
-        <item> efe quatro <tag> out = f4; </tag> </item>
-        <item> efe cinco <tag> out = f5; </tag> </item>
-        <item> efe seis <tag> out = f6; </tag> </item>
-        <item> efe sete <tag> out = f7; </tag> </item>
-        <item> efe oito <tag> out = f8; </tag> </item>
-        <item> guê um <tag> out = g1; </tag> </item>
-        <item> guê dois <tag> out = g2; </tag> </item>
-        <item> guê três <tag> out = g3; </tag> </item>
-        <item> guê quatro <tag> out = g4; </tag> </item>
-        <item> guê cinco <tag> out = g5; </tag> </item>
-        <item> guê seis <tag> out = g6; </tag> </item>
-        <item> guê sete <tag> out = g7; </tag> </item>
-        <item> guê oito <tag> out = g8; </tag> </item>
-        <item> agá um <tag> out = h1; </tag> </item>
-        <item> agá dois <tag> out = h2; </tag> </item>
-        <item> agá três <tag> out = h3; </tag> </item>
-        <item> agá quatro <tag> out = h4; </tag> </item>
-        <item> agá cinco <tag> out = h5; </tag> </item>
-        <item> agá seis <tag> out = h6; </tag> </item>
-        <item> agá sete <tag> out = h7; </tag> </item>
-        <item> agá oito <tag> out = h8; </tag> </item>
+        <item> bem jogado <tag> out.message = "Bem jogado!"; </tag> </item>
+        <item> guê guê <tag> out.message = "Bem jogado!"; </tag> </item>
       </one-of>
+    </item>
   </rule>
-
-
 </grammar>

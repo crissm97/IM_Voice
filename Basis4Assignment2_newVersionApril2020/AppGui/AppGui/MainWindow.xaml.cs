@@ -51,36 +51,24 @@ namespace AppGui
             var com = doc.Descendants("command").FirstOrDefault().Value;
             dynamic json = JsonConvert.DeserializeObject(com);
             Console.WriteLine(json);
-            string move = "";
-            move += (string)json.recognized[1].ToString();
-            move += (string)json.recognized[2].ToString();
-            move += (string)json.recognized[4].ToString();
-            move += (string)json.recognized[5].ToString();
-            await Task.Run(() => MainAsync("WSEeAv9uljDu", move));
-
-            //  new 16 april 2020
-            await mmic.Send(lce.NewContextRequest());
-
-            string json2 = ""; // "{ \"synthesize\": [";
-            json2 += (string)json.recognized[0].ToString()+ " ";
-            json2 += (string)json.recognized[1].ToString() + " DONE." ;
-            //json2 += "] }";
-            /*
-             foreach (var resultSemantic in e.Result.Semantics)
+            if ((string)json.action.ToString() == "joga")
             {
-                json += "\"" + resultSemantic.Value.Value + "\", ";
+                string move = "";
+                move += (string)json.initial_letter.ToString();
+                move += (string)json.initial_number.ToString();
+                move += (string)json.final_letter.ToString();
+                move += (string)json.final_number.ToString();
+                Task<String> move_piece = Task.Run(() => MovePiece("WSEeAv9uljDu", move));
+                String result = move_piece.Result;
+                await mmic.Send(lce.NewContextRequest());
+                var exNot = lce.ExtensionNotification(0 + "", 0 + "", 1, result);
+                await mmic.Send(exNot);
             }
-            json = json.Substring(0, json.Length - 2);
-            json += "] }";
-            */
-            var exNot = lce.ExtensionNotification(0 + "", 0 + "", 1, json2);
-            await mmic.Send(exNot);
-
 
         }
 
         
-        static async Task MainAsync(String Game, String Move)
+        static async Task<String> MovePiece(String Game, String Move)
         {
             var client = new HttpClient();
             var url = new Uri("https://lichess.org/api/board/game/" + Game + "/move/" + Move);
@@ -93,8 +81,24 @@ namespace AppGui
                             = new AuthenticationHeaderValue("Bearer", "lip_WRQzhAeD2ZGNt1MZXsAI");
             var result = await client.PostAsync(url, content);
             string resultContent = await result.Content.ReadAsStringAsync();
-            Console.WriteLine(resultContent);
+            return resultContent;
         }
-        
+
+        static async Task<String> SendMessage(String Game, String Message)
+        {
+            var client = new HttpClient();
+            var url = new Uri("https://lichess.org/api/board/game/" + Game + "/move/" + Message);
+            var values = new Dictionary<string, string>()
+            {
+                {"", "" }
+            };
+            var content = new FormUrlEncodedContent(values);
+            client.DefaultRequestHeaders.Authorization
+                            = new AuthenticationHeaderValue("Bearer", "lip_WRQzhAeD2ZGNt1MZXsAI");
+            var result = await client.PostAsync(url, content);
+            string resultContent = await result.Content.ReadAsStringAsync();
+            return resultContent;
+        }
+
     }
 }
