@@ -64,6 +64,16 @@ namespace AppGui
                 var exNot = lce.ExtensionNotification(0 + "", 0 + "", 1, result);
                 await mmic.Send(exNot);
             }
+            else if ((string)json.action.ToString() == "envia")
+            {
+                string message = "";
+                message += (string)json.message.ToString();
+                Task<String> move_piece = Task.Run(() => SendMessage("WSEeAv9uljDu", message));
+                String result = move_piece.Result;
+                await mmic.Send(lce.NewContextRequest());
+                var exNot = lce.ExtensionNotification(0 + "", 0 + "", 1, result);
+                await mmic.Send(exNot);
+            }
 
         }
 
@@ -87,16 +97,18 @@ namespace AppGui
         static async Task<String> SendMessage(String Game, String Message)
         {
             var client = new HttpClient();
-            var url = new Uri("https://lichess.org/api/board/game/" + Game + "/move/" + Message);
+            var url = new Uri("https://lichess.org/api/board/game/" + Game + "/chat");
             var values = new Dictionary<string, string>()
             {
-                {"", "" }
+                {"text", Message },
+                {"room", "player" }
             };
             var content = new FormUrlEncodedContent(values);
             client.DefaultRequestHeaders.Authorization
                             = new AuthenticationHeaderValue("Bearer", "lip_WRQzhAeD2ZGNt1MZXsAI");
             var result = await client.PostAsync(url, content);
             string resultContent = await result.Content.ReadAsStringAsync();
+            Console.WriteLine(resultContent);
             return resultContent;
         }
 
