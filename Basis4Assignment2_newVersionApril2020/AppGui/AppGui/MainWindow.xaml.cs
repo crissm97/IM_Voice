@@ -25,6 +25,7 @@ namespace AppGui
         private MmiCommunication mmiSender;
         private LifeCycleEvents lce;
         private MmiCommunication mmic;
+        private string game = "";
 
         public MainWindow()
         {
@@ -58,7 +59,7 @@ namespace AppGui
                 move += (string)json.initial_number.ToString();
                 move += (string)json.final_letter.ToString();
                 move += (string)json.final_number.ToString();
-                Task<String> move_piece = Task.Run(() => MovePiece("RfGRXJE2", move));
+                Task<String> move_piece = Task.Run(() => MovePiece(game, move));
                 String result = move_piece.Result;
                 await mmic.Send(lce.NewContextRequest());
                 var exNot = lce.ExtensionNotification(0 + "", 0 + "", 1, result);
@@ -68,7 +69,7 @@ namespace AppGui
             {
                 string message = "";
                 message += (string)json.message.ToString();
-                Task<String> send_msg = Task.Run(() => SendMessage("RfGRXJE2", message));
+                Task<String> send_msg = Task.Run(() => SendMessage(game, message));
                 String result = send_msg.Result;
                 await mmic.Send(lce.NewContextRequest());
                 var exNot = lce.ExtensionNotification(0 + "", 0 + "", 1, result);
@@ -76,7 +77,7 @@ namespace AppGui
             }
             else if ((string)json.action.ToString() == "desisto")
             {
-                Task<String> resign = Task.Run(() => Resign("RfGRXJE2"));
+                Task<String> resign = Task.Run(() => Resign(game));
                 String result = resign.Result;
                 await mmic.Send(lce.NewContextRequest());
                 var exNot = lce.ExtensionNotification(0 + "", 0 + "", 1, result);
@@ -90,6 +91,9 @@ namespace AppGui
                 string result = challenge.Result;
                 string data = getBetween(result, "url", "status");
                 char[] removeStuff = { '"', ':', ',' };
+                string auxgame = getBetween(result, "id", "url");
+                string newgame = auxgame.TrimEnd(removeStuff);
+                game = newgame.TrimStart(removeStuff);
                 string auxdata = data.TrimEnd(removeStuff);
                 string newdata = auxdata.TrimStart(removeStuff);
                 System.Diagnostics.Process.Start("chrome.exe", newdata);
