@@ -117,40 +117,7 @@ namespace speechModality
 
             tts.Speak(com);
 
-            //dynamic json = JsonConvert.DeserializeObject(com);
-
-            /*
-            Shape _s = null;
-            switch ((string)json.recognized[0].ToString())
-            {
-                case "SQUARE":
-                    _s = rectangle;
-                    break;
-                case "CIRCLE":
-                    _s = circle;
-                    break;
-                case "TRIANGLE":
-                    _s = triangle;
-                    break;
-            }
-
-            App.Current.Dispatcher.Invoke(() =>
-            {
-                switch ((string)json.recognized[1].ToString())
-                {
-                    case "GREEN":
-                        _s.Fill = Brushes.Green;
-                        break;
-                    case "BLUE":
-                        _s.Fill = Brushes.Blue;
-                        break;
-                    case "RED":
-                        _s.Fill = Brushes.Red;
-                        break;
-                }
-            });
-            */
-
+           
 
         }
     }

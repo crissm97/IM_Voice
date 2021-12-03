@@ -4,6 +4,8 @@
     <one-of>
       <item repeat="0-1"> <ruleref uri="#move_piece"/> <tag> out.move_piece = rules.move_piece; </tag></item>
       <item repeat="0-1"> <ruleref uri="#send_msg"/> <tag> out.send_msg = rules.send_msg; </tag></item>
+      <item repeat="0-1"> <ruleref uri="#quit"/> <tag> out.quit = rules.quit; </tag></item>
+      <item repeat="0-1"> <ruleref uri="#challenge"/> <tag> out.challenge = rules.challenge; </tag></item>
     </one-of>
   </rule>
   <rule id="move_piece">
@@ -64,6 +66,34 @@
       <one-of>
         <item> bem jogado <tag> out.message = "Bem jogado!"; </tag> </item>
         <item> guê guê <tag> out.message = "Bem jogado!"; </tag> </item>
+      </one-of>
+    </item>
+  </rule>
+  <rule id="quit">
+    <item>
+      <one-of>
+        <item> desisto <tag> out.action = "desisto"; </tag> </item>
+        <item> quero desistir <tag> out.action = "desisto"; </tag> </item>
+      </one-of>
+    </item>
+  </rule>
+  <rule id="challenge">
+    <item>
+      <one-of>
+        <item> convida <tag> out.action = "desafia"; </tag> </item>
+        <item> desafia <tag> out.action = "desafia"; </tag> </item>
+      </one-of>
+    </item>
+    <item repeat="0-1">
+      <one-of>
+        <item> o </item>
+        <item> a </item>
+      </one-of>
+    </item>
+    <item>
+      <one-of>
+        <item> guilherme <tag> out.user = "pako25"; </tag> </item>
+        <item> gui <tag> out.user = "pako25"; </tag> </item>
       </one-of>
     </item>
   </rule>
