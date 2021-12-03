@@ -101,6 +101,16 @@ namespace AppGui
                 var exNot = lce.ExtensionNotification(0 + "", 0 + "", 1, result);
                 await mmic.Send(exNot);
             }
+            else if ((string)json.action.ToString() == "engano")
+            {
+                string message = "yes";
+                message += (string)json.message.ToString();
+                Task<String> send_msg = Task.Run(() => SendMessage(game, message));
+                String result = send_msg.Result;
+                await mmic.Send(lce.NewContextRequest());
+                var exNot = lce.ExtensionNotification(0 + "", 0 + "", 1, result);
+                await mmic.Send(exNot);
+            }
 
         }
         public static string getBetween(string strSource, string strStart, string strEnd)
@@ -172,6 +182,22 @@ namespace AppGui
             var values = new Dictionary<string, string>()
             {
                 {"", "" }
+            };
+            var content = new FormUrlEncodedContent(values);
+            client.DefaultRequestHeaders.Authorization
+                            = new AuthenticationHeaderValue("Bearer", "lip_WRQzhAeD2ZGNt1MZXsAI");
+            var result = await client.PostAsync(url, content);
+            string resultContent = await result.Content.ReadAsStringAsync();
+            return resultContent;
+        }
+
+        static async Task<String> TakeBack(String Game, String Message)
+        {
+            var client = new HttpClient();
+            var url = new Uri("https://lichess.org/api/board/game/" + Game + "/takeback/" + Message);
+            var values = new Dictionary<string, string>()
+            {
+                {"", "" },
             };
             var content = new FormUrlEncodedContent(values);
             client.DefaultRequestHeaders.Authorization

@@ -6,6 +6,7 @@
       <item repeat="0-1"> <ruleref uri="#send_msg"/> <tag> out.send_msg = rules.send_msg; </tag></item>
       <item repeat="0-1"> <ruleref uri="#quit"/> <tag> out.quit = rules.quit; </tag></item>
       <item repeat="0-1"> <ruleref uri="#challenge"/> <tag> out.challenge = rules.challenge; </tag></item>
+      <item repeat="0-1"> <ruleref uri="#challenge"/> <tag> out.challenge = rules.challenge; </tag> </item>
     </one-of>
   </rule>
   <rule id="move_piece">
@@ -94,6 +95,15 @@
       <one-of>
         <item> guilherme <tag> out.user = "pako25"; </tag> </item>
         <item> gui <tag> out.user = "pako25"; </tag> </item>
+        <item> cris <tag> out.user = "TestarCaderno" </tag> </item>
+      </one-of>
+    </item>
+  </rule>
+  <rule id="mistake">
+    <item>
+      <one-of>
+        <item> enganei-me, posso jogar de novo? <tag> out.action = "engano"; </tag> </item>
+        <item> posso voltar atrás? <tag> out.action = "engano"; </tag> </item>
       </one-of>
     </item>
   </rule>
