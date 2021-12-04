@@ -96,7 +96,7 @@ namespace AppGui
                 game = newgame.TrimStart(removeStuff);
                 string auxdata = data.TrimEnd(removeStuff);
                 string newdata = auxdata.TrimStart(removeStuff);
-                System.Diagnostics.Process.Start("chrome.exe", newdata);
+                System.Diagnostics.Process.Start("firefox.exe", newdata);
                 await mmic.Send(lce.NewContextRequest());
                 var exNot = lce.ExtensionNotification(0 + "", 0 + "", 1, result);
                 await mmic.Send(exNot);
@@ -104,8 +104,7 @@ namespace AppGui
             else if ((string)json.action.ToString() == "engano")
             {
                 string message = "yes";
-                message += (string)json.message.ToString();
-                Task<String> send_msg = Task.Run(() => SendMessage(game, message));
+                Task<String> send_msg = Task.Run(() => TakeBack(game, message));
                 String result = send_msg.Result;
                 await mmic.Send(lce.NewContextRequest());
                 var exNot = lce.ExtensionNotification(0 + "", 0 + "", 1, result);
@@ -136,7 +135,7 @@ namespace AppGui
             };
             var content = new FormUrlEncodedContent(values);
             client.DefaultRequestHeaders.Authorization
-                            = new AuthenticationHeaderValue("Bearer", "lip_WRQzhAeD2ZGNt1MZXsAI");
+                            = new AuthenticationHeaderValue("Bearer", "lip_I0iYfH1quLT2GUWlxrAq");
             var result = await client.PostAsync(url, content);
             string resultContent = await result.Content.ReadAsStringAsync();
             return resultContent;
@@ -153,7 +152,7 @@ namespace AppGui
             };
             var content = new FormUrlEncodedContent(values);
             client.DefaultRequestHeaders.Authorization
-                            = new AuthenticationHeaderValue("Bearer", "lip_WRQzhAeD2ZGNt1MZXsAI");
+                            = new AuthenticationHeaderValue("Bearer", "lip_I0iYfH1quLT2GUWlxrAq");
             var result = await client.PostAsync(url, content);
             string resultContent = await result.Content.ReadAsStringAsync();
             return resultContent;
@@ -169,7 +168,7 @@ namespace AppGui
             };
             var content = new FormUrlEncodedContent(values);
             client.DefaultRequestHeaders.Authorization
-                            = new AuthenticationHeaderValue("Bearer", "lip_WRQzhAeD2ZGNt1MZXsAI");
+                            = new AuthenticationHeaderValue("Bearer", "lip_I0iYfH1quLT2GUWlxrAq");
             var result = await client.PostAsync(url, content);
             string resultContent = await result.Content.ReadAsStringAsync();
             return resultContent;
@@ -185,7 +184,7 @@ namespace AppGui
             };
             var content = new FormUrlEncodedContent(values);
             client.DefaultRequestHeaders.Authorization
-                            = new AuthenticationHeaderValue("Bearer", "lip_WRQzhAeD2ZGNt1MZXsAI");
+                            = new AuthenticationHeaderValue("Bearer", "lip_I0iYfH1quLT2GUWlxrAq");
             var result = await client.PostAsync(url, content);
             string resultContent = await result.Content.ReadAsStringAsync();
             return resultContent;
@@ -201,7 +200,7 @@ namespace AppGui
             };
             var content = new FormUrlEncodedContent(values);
             client.DefaultRequestHeaders.Authorization
-                            = new AuthenticationHeaderValue("Bearer", "lip_WRQzhAeD2ZGNt1MZXsAI");
+                            = new AuthenticationHeaderValue("Bearer", "lip_I0iYfH1quLT2GUWlxrAq");
             var result = await client.PostAsync(url, content);
             string resultContent = await result.Content.ReadAsStringAsync();
             return resultContent;

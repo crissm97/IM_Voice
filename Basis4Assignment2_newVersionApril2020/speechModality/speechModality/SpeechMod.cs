@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using mmisharp;
 using Microsoft.Speech.Recognition;
 using System.Xml.Linq;
-//using Newtonsoft.Json;
+using Newtonsoft.Json;
 
 namespace speechModality
 {
@@ -55,7 +55,7 @@ namespace speechModality
             sre.SpeechHypothesized += Sre_SpeechHypothesized;
 
             // NEW - TTS support 16 April
-            tts.Speak("Olá. Estou pronto para receber ordens.");
+            tts.Speak("Olá. Bem vindo ao Lichess. Desafie o seu oponente");
 
 
             //  o TTS  no final indica que se recebe mensagens enviadas para TTS
@@ -112,13 +112,44 @@ namespace speechModality
             var doc = XDocument.Parse(e.Message);
             var com = doc.Descendants("command").FirstOrDefault().Value;
 
-            Console.WriteLine(com);
+            dynamic tojson2 = JsonConvert.DeserializeObject(com);
 
-
-            tts.Speak(com);
-
-           
-
+            if (tojson2.ContainsKey("error"))
+            {
+                Console.WriteLine(tojson2.error.ToString());
+                if ("Not your turn, or game already over".Equals(tojson2.error.ToString()))
+                {
+                    tts.Speak("Não é a tua vez de jogar");
+                }
+                else if (tojson2.error.ToString().Contains("Piece") && tojson2.error.ToString().Contains("on"))
+                {
+                    tts.Speak("Jogada inválida");
+                }
+                else if ("No such game".Equals(tojson2.error.ToString()))
+                {
+                    tts.Speak("Jogo inexistente");
+                }
+                else if (tojson2.error.ToString().Contains("No") && tojson2.error.ToString().Contains("piece"))
+                {
+                    tts.Speak("Não há peça nessa posição");
+                }
+                else if (tojson2.error.ToString().Contains("Not") && tojson2.error.ToString().Contains("piece"))
+                {
+                    tts.Speak("Essa peça não é tua");
+                }
+            }
+            else if (tojson2.ContainsKey("ok"))
+            {
+                if ("true".Equals(tojson2.ok.ToString()))
+                {
+                    Console.Beep();
+                }
+            }
+            else if (tojson2.ContainsKey("challenge"))
+            {
+                Console.Beep();
+                Console.Beep();
+            }
         }
     }
 }
