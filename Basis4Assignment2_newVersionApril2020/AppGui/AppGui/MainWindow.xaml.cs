@@ -110,6 +110,46 @@ namespace AppGui
                 var exNot = lce.ExtensionNotification(0 + "", 0 + "", 1, result);
                 await mmic.Send(exNot);
             }
+            else if ((string)json.action.ToString() == "list")
+            {
+                Task<String> list = Task.Run(() => ListChallenges());
+                String result = list.Result;
+                string data = "";
+                if (result.Contains(@"""in"":[]"))
+                {
+                    data = "";
+                }
+                else
+                {
+                    data = getBetween(result, "id", "url");
+                    char[] removeStuff = { '"', ':', ',' };
+                    data = data.TrimStart(removeStuff);
+                    data = data.TrimEnd(removeStuff);
+                    game = data;
+                }
+                
+                await mmic.Send(lce.NewContextRequest());
+
+                if (String.IsNullOrEmpty(data))
+                {
+                    result = "Não";
+                }
+                else
+                {
+                    result = "Sim";
+                }
+                var exNot = lce.ExtensionNotification(0 + "", 0 + "", 1, result);
+                await mmic.Send(exNot);
+            }
+            else if ((string)json.action.ToString() == "accept")
+            {
+                Task<String> accept = Task.Run(() => Accept(game));
+                string result = accept.Result;
+                System.Diagnostics.Process.Start("firefox.exe", "https://lichess.org/" + game);
+                await mmic.Send(lce.NewContextRequest());
+                var exNot = lce.ExtensionNotification(0 + "", 0 + "", 1, result);
+                await mmic.Send(exNot);
+            }
 
         }
         public static string getBetween(string strSource, string strStart, string strEnd)
@@ -197,6 +237,33 @@ namespace AppGui
             var values = new Dictionary<string, string>()
             {
                 {"", "" },
+            };
+            var content = new FormUrlEncodedContent(values);
+            client.DefaultRequestHeaders.Authorization
+                            = new AuthenticationHeaderValue("Bearer", "lip_I0iYfH1quLT2GUWlxrAq");
+            var result = await client.PostAsync(url, content);
+            string resultContent = await result.Content.ReadAsStringAsync();
+            return resultContent;
+        }
+
+        static async Task<String> ListChallenges()
+        {
+            var client = new HttpClient();
+            var url = new Uri("https://lichess.org/api/challenge");
+            client.DefaultRequestHeaders.Authorization
+                            = new AuthenticationHeaderValue("Bearer", "lip_I0iYfH1quLT2GUWlxrAq");
+            var result = await client.GetAsync(url);
+            string resultContent = await result.Content.ReadAsStringAsync();
+            return resultContent;
+        }
+
+        static async Task<String> Accept(String Accept)
+        {
+            var client = new HttpClient();
+            var url = new Uri("https://lichess.org/api/challenge/" + Accept + "/accept");
+            var values = new Dictionary<string, string>()
+            {
+                {"", "" }
             };
             var content = new FormUrlEncodedContent(values);
             client.DefaultRequestHeaders.Authorization

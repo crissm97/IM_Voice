@@ -55,7 +55,7 @@ namespace speechModality
             sre.SpeechHypothesized += Sre_SpeechHypothesized;
 
             // NEW - TTS support 16 April
-            tts.Speak("Olá. Bem vindo ao Lichess. Desafie o seu oponente");
+            tts.Speak("Olá. Bem vindo ao assistente de xadrez. Como posso ser útil?");
 
 
             //  o TTS  no final indica que se recebe mensagens enviadas para TTS
@@ -107,49 +107,56 @@ namespace speechModality
 
         private void MmiReceived_Message(object sender, MmiEventArgs e)
         {
-            Console.WriteLine(e.Message);
-
             var doc = XDocument.Parse(e.Message);
             var com = doc.Descendants("command").FirstOrDefault().Value;
 
-            dynamic tojson2 = JsonConvert.DeserializeObject(com);
+            if(com != "Sim" && com != "Não")
+            {
+                dynamic tojson2 = JsonConvert.DeserializeObject(com);
 
-            if (tojson2.ContainsKey("error"))
-            {
-                Console.WriteLine(tojson2.error.ToString());
-                if ("Not your turn, or game already over".Equals(tojson2.error.ToString()))
+                if (tojson2.ContainsKey("error"))
                 {
-                    tts.Speak("Não é a tua vez de jogar");
+                    Console.WriteLine(tojson2.error.ToString());
+                    if ("Not your turn, or game already over".Equals(tojson2.error.ToString()))
+                    {
+                        tts.Speak("Não é a tua vez de jogar");
+                    }
+                    else if (tojson2.error.ToString().Contains("Piece on"))
+                    {
+                        tts.Speak("Jogada inválida");
+                    }
+                    else if ("No such game".Equals(tojson2.error.ToString()))
+                    {
+                        tts.Speak("Jogo inexistente");
+                    }
+                    else if (tojson2.error.ToString().Contains("No piece"))
+                    {
+                        tts.Speak("Não há peça nessa posição");
+                    }
+                    else if (tojson2.error.ToString().Contains("Not my piece"))
+                    {
+                        tts.Speak("Essa peça não é tua");
+                    }
                 }
-                else if (tojson2.error.ToString().Contains("Piece") && tojson2.error.ToString().Contains("on"))
+                else if (tojson2.ContainsKey("ok"))
                 {
-                    tts.Speak("Jogada inválida");
+                    if ("true".Equals(tojson2.ok.ToString()))
+                    {
+                        Console.Beep();
+                    }
                 }
-                else if ("No such game".Equals(tojson2.error.ToString()))
+                else if (tojson2.ContainsKey("challenge"))
                 {
-                    tts.Speak("Jogo inexistente");
-                }
-                else if (tojson2.error.ToString().Contains("No") && tojson2.error.ToString().Contains("piece"))
-                {
-                    tts.Speak("Não há peça nessa posição");
-                }
-                else if (tojson2.error.ToString().Contains("Not") && tojson2.error.ToString().Contains("piece"))
-                {
-                    tts.Speak("Essa peça não é tua");
-                }
-            }
-            else if (tojson2.ContainsKey("ok"))
-            {
-                if ("true".Equals(tojson2.ok.ToString()))
-                {
+                    Console.Beep();
                     Console.Beep();
                 }
             }
-            else if (tojson2.ContainsKey("challenge"))
+            else
             {
-                Console.Beep();
-                Console.Beep();
+                tts.Speak(com);
             }
+            
+            
         }
     }
 }

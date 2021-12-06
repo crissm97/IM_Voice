@@ -7,6 +7,9 @@
       <item repeat="0-1"> <ruleref uri="#quit"/> <tag> out.quit = rules.quit; </tag></item>
       <item repeat="0-1"> <ruleref uri="#challenge"/> <tag> out.challenge = rules.challenge; </tag></item>
       <item repeat="0-1"> <ruleref uri="#mistake"/> <tag> out.mistake = rules.mistake; </tag> </item>
+      <item repeat="0-1"> <ruleref uri="#list"/> <tag> out.list = rules.list; </tag></item>
+      <item repeat="0-1"> <ruleref uri="#accept"/> <tag> out.accept = rules.accept; </tag></item>
+
     </one-of>
   </rule>
   <rule id="move_piece">
@@ -106,6 +109,21 @@
       <one-of>
         <item> enganei-me, posso jogar de novo? <tag> out.action = "engano"; </tag> </item>
         <item> posso voltar atrás? <tag> out.action = "engano"; </tag> </item>
+      </one-of>
+    </item>
+  </rule>
+  <rule id="list">
+    <item>
+      <one-of>
+        <item> tenho algum desafio? <tag> out.action = "list"; </tag>
+        </item>
+      </one-of>
+    </item>
+  </rule>
+  <rule id="accept">
+    <item>
+      <one-of>
+        <item>aceita o desafio <tag> out.action = "accept"; </tag></item>
       </one-of>
     </item>
   </rule>
