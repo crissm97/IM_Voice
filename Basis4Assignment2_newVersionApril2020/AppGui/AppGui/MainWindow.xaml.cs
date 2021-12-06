@@ -21,7 +21,6 @@ namespace AppGui
     {
         private MmiCommunication mmiC;
 
-        //  new 16 april 2020
         private MmiCommunication mmiSender;
         private LifeCycleEvents lce;
         private MmiCommunication mmic;
@@ -30,7 +29,6 @@ namespace AppGui
         public MainWindow()
         {
             InitializeComponent();
-
 
             mmiC = new MmiCommunication("localhost",8000, "User1", "GUI");
             mmiC.Message += MmiC_Message;
@@ -41,17 +39,15 @@ namespace AppGui
             lce = new LifeCycleEvents("APP", "TTS", "User1", "na", "command"); // LifeCycleEvents(string source, string target, string id, string medium, string mode
             // MmiCommunication(string IMhost, int portIM, string UserOD, string thisModalityName)
             mmic = new MmiCommunication("localhost", 8000, "User1", "GUI");
-            
-
         }
 
         private async void MmiC_Message(object sender, MmiEventArgs e)
         {
-            Console.WriteLine(e.Message);
             var doc = XDocument.Parse(e.Message);
             var com = doc.Descendants("command").FirstOrDefault().Value;
             dynamic json = JsonConvert.DeserializeObject(com);
-            Console.WriteLine(json);
+
+            // If I pretend to play
             if ((string)json.action.ToString() == "joga")
             {
                 string move = "";
@@ -61,10 +57,19 @@ namespace AppGui
                 move += (string)json.final_number.ToString();
                 Task<String> move_piece = Task.Run(() => MovePiece(game, move));
                 String result = move_piece.Result;
+                string auxok = @"""ok""";
+                string auxtrue = "true";
+                string aux = "{" + auxok + ":" + auxtrue + "}";
+                if (result.Equals(aux))
+                {
+                    result = "{'ok' : ''}";
+                }
                 await mmic.Send(lce.NewContextRequest());
                 var exNot = lce.ExtensionNotification(0 + "", 0 + "", 1, result);
                 await mmic.Send(exNot);
             }
+
+            // If I pretend to send a chat message
             else if ((string)json.action.ToString() == "envia")
             {
                 string message = "";
@@ -82,6 +87,8 @@ namespace AppGui
                 var exNot = lce.ExtensionNotification(0 + "", 0 + "", 1, result);
                 await mmic.Send(exNot);
             }
+
+            // If I pretend to give up
             else if ((string)json.action.ToString() == "desisto")
             {
                 Task<String> resign = Task.Run(() => Resign(game));
@@ -97,6 +104,8 @@ namespace AppGui
                 var exNot = lce.ExtensionNotification(0 + "", 0 + "", 1, result);
                 await mmic.Send(exNot);
             }
+
+            // If I pretend to challenge someone
             else if ((string)json.action.ToString() == "desafia")
             {
                 string user = "";
@@ -115,6 +124,8 @@ namespace AppGui
                 var exNot = lce.ExtensionNotification(0 + "", 0 + "", 1, result);
                 await mmic.Send(exNot);
             }
+
+            // If I pretend to takeback
             else if ((string)json.action.ToString() == "engano")
             {
                 string message = "yes";
@@ -131,6 +142,8 @@ namespace AppGui
                 var exNot = lce.ExtensionNotification(0 + "", 0 + "", 1, result);
                 await mmic.Send(exNot);
             }
+
+            // If I pretend to accept a takeback proposed by the opponent
             else if ((string)json.action.ToString() == "accengano")
             {
                 string message = "yes";
@@ -147,6 +160,8 @@ namespace AppGui
                 var exNot = lce.ExtensionNotification(0 + "", 0 + "", 1, result);
                 await mmic.Send(exNot);
             }
+
+            // If I pretend to reject a takeback proposed by the opponent
             else if ((string)json.action.ToString() == "rejengano")
             {
                 string message = "no";
@@ -163,12 +178,12 @@ namespace AppGui
                 var exNot = lce.ExtensionNotification(0 + "", 0 + "", 1, result);
                 await mmic.Send(exNot);
             }
+
+            // If I pretend to know if I have game invitations
             else if ((string)json.action.ToString() == "list")
             {
                 Task<String> list = Task.Run(() => ListChallenges());
                 String result = list.Result;
-
-                Console.WriteLine(result);
 
                 string data = "";
                 if (result.Contains(@"""in"":[]"))
@@ -197,6 +212,8 @@ namespace AppGui
                 var exNot = lce.ExtensionNotification(0 + "", 0 + "", 1, result);
                 await mmic.Send(exNot);
             }
+
+            // If I pretend to accept a game invitation
             else if ((string)json.action.ToString() == "accept")
             {
                 Task<String> accept = Task.Run(() => Accept(game));
@@ -213,6 +230,8 @@ namespace AppGui
                 var exNot = lce.ExtensionNotification(0 + "", 0 + "", 1, result);
                 await mmic.Send(exNot);
             }
+
+            // If I pretend to reject a game invitation
             else if ((string)json.action.ToString() == "decline")
             {
                 Task<String> decline = Task.Run(() => Decline(game));
@@ -228,12 +247,12 @@ namespace AppGui
                 var exNot = lce.ExtensionNotification(0 + "", 0 + "", 1, result);
                 await mmic.Send(exNot);
             }
+
+            // If I pretend to cancel a invitation I sent
             else if ((string)json.action.ToString() == "cancel")
             {
                 Task<String> list = Task.Run(() => ListChallenges());
                 String resultaux = list.Result;
-
-                Console.WriteLine(resultaux);
 
                 string data = "";
                 if (resultaux.Contains(@"""out"":[]"))
@@ -263,6 +282,8 @@ namespace AppGui
                 var exNot = lce.ExtensionNotification(0 + "", 0 + "", 1, result);
                 await mmic.Send(exNot);
             }
+
+            // If I pretend to propose a draw
             else if ((string)json.action.ToString() == "empate")
             {
                 string message = "yes";
@@ -279,6 +300,8 @@ namespace AppGui
                 var exNot = lce.ExtensionNotification(0 + "", 0 + "", 1, result);
                 await mmic.Send(exNot);
             }
+
+            // If I pretend to accept a draw proposed by the opponent
             else if ((string)json.action.ToString() == "accempate")
             {
                 string message = "yes";
@@ -295,6 +318,8 @@ namespace AppGui
                 var exNot = lce.ExtensionNotification(0 + "", 0 + "", 1, result);
                 await mmic.Send(exNot);
             }
+
+            // If I pretend to reject a draw proposed by the opponent
             else if ((string)json.action.ToString() == "rejempate")
             {
                 string message = "no";
@@ -313,6 +338,7 @@ namespace AppGui
             }
 
         }
+        // Function that given a string, a starting point and a ending point, returns the charachters in-between
         public static string getBetween(string strSource, string strStart, string strEnd)
         {
             if (strSource.Contains(strStart) && strSource.Contains(strEnd))
@@ -326,6 +352,8 @@ namespace AppGui
             return "";
         }
 
+        // Series of Tasks that communicate with the Lichess API to...
+        //    ...  move a piece from one to another of given positions
         static async Task<String> MovePiece(String Game, String Move)
         {
             var client = new HttpClient();
@@ -342,6 +370,7 @@ namespace AppGui
             return resultContent;
         }
 
+        //    ... send to the chat a given message
         static async Task<String> SendMessage(String Game, String Message)
         {
             var client = new HttpClient();
@@ -359,6 +388,7 @@ namespace AppGui
             return resultContent;
         }
 
+        //      ... give up the game
         static async Task<String> Resign(String Game)
         {
             var client = new HttpClient();
@@ -375,6 +405,7 @@ namespace AppGui
             return resultContent;
         }
 
+        //      ... invite a given opponent
         static async Task<String> Challenge(String User)
         {
             var client = new HttpClient();
@@ -391,6 +422,7 @@ namespace AppGui
             return resultContent;
         }
 
+        //      ... propose a takeback
         static async Task<String> TakeBack(String Game, String Message)
         {
             var client = new HttpClient();
@@ -407,6 +439,7 @@ namespace AppGui
             return resultContent;
         }
 
+        //      ... know if there is an active invite to play
         static async Task<String> ListChallenges()
         {
             var client = new HttpClient();
@@ -418,6 +451,7 @@ namespace AppGui
             return resultContent;
         }
 
+        //      ... accept an invite
         static async Task<String> Accept(String Accept)
         {
             var client = new HttpClient();
@@ -434,6 +468,7 @@ namespace AppGui
             return resultContent;
         }
 
+        //      ... decline an invite
         static async Task<String> Decline(String Decline)
         {
             var client = new HttpClient();
@@ -450,6 +485,7 @@ namespace AppGui
             return resultContent;
         }
 
+        //      ... cancel a sent invitation
         static async Task<String> Cancel(String Cancel)
         {
             var client = new HttpClient();
@@ -466,6 +502,7 @@ namespace AppGui
             return resultContent;
         }
 
+        //      ... propose a draw
         static async Task<String> Draw(String Game, String Message)
         {
             var client = new HttpClient();

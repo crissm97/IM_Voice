@@ -106,11 +106,8 @@ namespace speechModality
         //  Adapted from AppGUI code
 
 
-
-
-
-
         //MmiReceived_Message;
+        // TTS of the information received about the actions performed
 
         private void MmiReceived_Message(object sender, MmiEventArgs e)
         {
@@ -143,14 +140,7 @@ namespace speechModality
             }
             else if (tojson2.ContainsKey("ok"))
             {
-                if ("true".Equals(tojson2.ok.ToString()))
-                {
-                    Console.Beep();
-                }
-                else
-                {
-                    tts.Speak(tojson2.ok.ToString());
-                }      
+                tts.Speak(tojson2.ok.ToString());      
             }
             else if (tojson2.ContainsKey("challenge"))
             {
