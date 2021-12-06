@@ -6,9 +6,12 @@
       <item repeat="0-1"> <ruleref uri="#send_msg"/> <tag> out.send_msg = rules.send_msg; </tag></item>
       <item repeat="0-1"> <ruleref uri="#quit"/> <tag> out.quit = rules.quit; </tag></item>
       <item repeat="0-1"> <ruleref uri="#challenge"/> <tag> out.challenge = rules.challenge; </tag></item>
-      <item repeat="0-1"> <ruleref uri="#mistake"/> <tag> out.mistake = rules.mistake; </tag> </item>
+      <item repeat="0-1"> <ruleref uri="#mistake"/> <tag> out.mistake = rules.mistake; </tag></item>
       <item repeat="0-1"> <ruleref uri="#list"/> <tag> out.list = rules.list; </tag></item>
       <item repeat="0-1"> <ruleref uri="#accept"/> <tag> out.accept = rules.accept; </tag></item>
+      <item repeat="0-1"> <ruleref uri="#decline"/> <tag> out.decline = rules.decline; </tag></item>
+      <item repeat="0-1"> <ruleref uri="#cancel"/> <tag> out.cancel = rules.cancel; </tag></item>
+      <item repeat="0-1"> <ruleref uri="#empate"/> <tag> out.empate = rules.empate; </tag></item>
 
     </one-of>
   </rule>
@@ -124,6 +127,33 @@
     <item>
       <one-of>
         <item>aceita o desafio <tag> out.action = "accept"; </tag></item>
+      </one-of>
+    </item>
+  </rule>
+  <rule id="decline">
+    <item>
+      <one-of>
+        <item>
+          rejeita o desafio <tag> out.action = "decline"; </tag>
+        </item>
+      </one-of>
+    </item>
+  </rule>
+  <rule id="cancel">
+    <item>
+      <one-of>
+        <item>
+          cancela o desafio <tag> out.action = "cancel"; </tag>
+        </item>
+      </one-of>
+    </item>
+  </rule>
+  <rule id="empate">
+    <item>
+      <one-of>
+        <item>
+          Proponho empate <tag> out.action = "empate"; </tag>
+        </item>
       </one-of>
     </item>
   </rule>

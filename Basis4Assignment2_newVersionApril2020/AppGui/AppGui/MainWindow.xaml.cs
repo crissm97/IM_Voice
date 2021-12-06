@@ -114,6 +114,9 @@ namespace AppGui
             {
                 Task<String> list = Task.Run(() => ListChallenges());
                 String result = list.Result;
+
+                Console.WriteLine(result);
+
                 string data = "";
                 if (result.Contains(@"""in"":[]"))
                 {
@@ -146,6 +149,51 @@ namespace AppGui
                 Task<String> accept = Task.Run(() => Accept(game));
                 string result = accept.Result;
                 System.Diagnostics.Process.Start("firefox.exe", "https://lichess.org/" + game);
+                await mmic.Send(lce.NewContextRequest());
+                var exNot = lce.ExtensionNotification(0 + "", 0 + "", 1, result);
+                await mmic.Send(exNot);
+            }
+            else if ((string)json.action.ToString() == "decline")
+            {
+                Task<String> decline = Task.Run(() => Decline(game));
+                string result = decline.Result;
+                await mmic.Send(lce.NewContextRequest());
+                var exNot = lce.ExtensionNotification(0 + "", 0 + "", 1, result);
+                await mmic.Send(exNot);
+            }
+            else if ((string)json.action.ToString() == "cancel")
+            {
+                Task<String> list = Task.Run(() => ListChallenges());
+                String resultaux = list.Result;
+
+                Console.WriteLine(resultaux);
+
+                string data = "";
+                if (resultaux.Contains(@"""out"":[]"))
+                {
+                    data = "";
+                }
+                else
+                {
+                    data = getBetween(resultaux, "out", "url");
+                    data = getBetween(data, "id", ",");
+                    char[] removeStuff = { '"', ':', ',' };
+                    data = data.TrimStart(removeStuff);
+                    data = data.TrimEnd(removeStuff);
+                    game = data;
+                }
+
+                Task<String> cancel = Task.Run(() => Cancel(game));
+                string result = cancel.Result;
+                await mmic.Send(lce.NewContextRequest());
+                var exNot = lce.ExtensionNotification(0 + "", 0 + "", 1, result);
+                await mmic.Send(exNot);
+            }
+            else if ((string)json.action.ToString() == "empate")
+            {
+                string message = "yes";
+                Task<String> send_msg = Task.Run(() => Draw(game, message));
+                String result = send_msg.Result;
                 await mmic.Send(lce.NewContextRequest());
                 var exNot = lce.ExtensionNotification(0 + "", 0 + "", 1, result);
                 await mmic.Send(exNot);
@@ -264,6 +312,54 @@ namespace AppGui
             var values = new Dictionary<string, string>()
             {
                 {"", "" }
+            };
+            var content = new FormUrlEncodedContent(values);
+            client.DefaultRequestHeaders.Authorization
+                            = new AuthenticationHeaderValue("Bearer", "lip_I0iYfH1quLT2GUWlxrAq");
+            var result = await client.PostAsync(url, content);
+            string resultContent = await result.Content.ReadAsStringAsync();
+            return resultContent;
+        }
+
+        static async Task<String> Decline(String Decline)
+        {
+            var client = new HttpClient();
+            var url = new Uri("https://lichess.org/api/challenge/" + Decline + "/decline");
+            var values = new Dictionary<string, string>()
+            {
+                {"", "" }
+            };
+            var content = new FormUrlEncodedContent(values);
+            client.DefaultRequestHeaders.Authorization
+                            = new AuthenticationHeaderValue("Bearer", "lip_I0iYfH1quLT2GUWlxrAq");
+            var result = await client.PostAsync(url, content);
+            string resultContent = await result.Content.ReadAsStringAsync();
+            return resultContent;
+        }
+
+        static async Task<String> Cancel(String Cancel)
+        {
+            var client = new HttpClient();
+            var url = new Uri("https://lichess.org/api/challenge/" + Cancel + "/cancel");
+            var values = new Dictionary<string, string>()
+            {
+                {"", "" }
+            };
+            var content = new FormUrlEncodedContent(values);
+            client.DefaultRequestHeaders.Authorization
+                            = new AuthenticationHeaderValue("Bearer", "lip_I0iYfH1quLT2GUWlxrAq");
+            var result = await client.PostAsync(url, content);
+            string resultContent = await result.Content.ReadAsStringAsync();
+            return resultContent;
+        }
+
+        static async Task<String> Draw(String Game, String Message)
+        {
+            var client = new HttpClient();
+            var url = new Uri("https://lichess.org/api/board/game/" + Game + "/draw/" + Message);
+            var values = new Dictionary<string, string>()
+            {
+                {"", "" },
             };
             var content = new FormUrlEncodedContent(values);
             client.DefaultRequestHeaders.Authorization

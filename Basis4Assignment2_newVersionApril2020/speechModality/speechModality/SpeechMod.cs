@@ -109,7 +109,7 @@ namespace speechModality
         {
             var doc = XDocument.Parse(e.Message);
             var com = doc.Descendants("command").FirstOrDefault().Value;
-
+            Console.WriteLine(com);
             if(com != "Sim" && com != "Não")
             {
                 dynamic tojson2 = JsonConvert.DeserializeObject(com);
