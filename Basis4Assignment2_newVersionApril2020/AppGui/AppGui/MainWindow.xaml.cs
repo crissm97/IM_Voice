@@ -131,6 +131,38 @@ namespace AppGui
                 var exNot = lce.ExtensionNotification(0 + "", 0 + "", 1, result);
                 await mmic.Send(exNot);
             }
+            else if ((string)json.action.ToString() == "accengano")
+            {
+                string message = "yes";
+                Task<String> send_msg = Task.Run(() => TakeBack(game, message));
+                String result = send_msg.Result;
+                string auxok = @"""ok""";
+                string auxtrue = "true";
+                string aux = "{" + auxok + ":" + auxtrue + "}";
+                if (result.Equals(aux))
+                {
+                    result = "{'ok' : 'Pedido aceite'}";
+                }
+                await mmic.Send(lce.NewContextRequest());
+                var exNot = lce.ExtensionNotification(0 + "", 0 + "", 1, result);
+                await mmic.Send(exNot);
+            }
+            else if ((string)json.action.ToString() == "rejengano")
+            {
+                string message = "no";
+                Task<String> send_msg = Task.Run(() => TakeBack(game, message));
+                String result = send_msg.Result;
+                string auxok = @"""ok""";
+                string auxtrue = "true";
+                string aux = "{" + auxok + ":" + auxtrue + "}";
+                if (result.Equals(aux))
+                {
+                    result = "{'ok' : 'Pedido rejeitado'}";
+                }
+                await mmic.Send(lce.NewContextRequest());
+                var exNot = lce.ExtensionNotification(0 + "", 0 + "", 1, result);
+                await mmic.Send(exNot);
+            }
             else if ((string)json.action.ToString() == "list")
             {
                 Task<String> list = Task.Run(() => ListChallenges());
@@ -242,6 +274,38 @@ namespace AppGui
                 if (result.Equals(aux))
                 {
                     result = "{'ok' : 'Empate proposto'}";
+                }
+                await mmic.Send(lce.NewContextRequest());
+                var exNot = lce.ExtensionNotification(0 + "", 0 + "", 1, result);
+                await mmic.Send(exNot);
+            }
+            else if ((string)json.action.ToString() == "accempate")
+            {
+                string message = "yes";
+                Task<String> send_msg = Task.Run(() => Draw(game, message));
+                String result = send_msg.Result;
+                string auxok = @"""ok""";
+                string auxtrue = "true";
+                string aux = "{" + auxok + ":" + auxtrue + "}";
+                if (result.Equals(aux))
+                {
+                    result = "{'ok' : 'Empate aceite'}";
+                }
+                await mmic.Send(lce.NewContextRequest());
+                var exNot = lce.ExtensionNotification(0 + "", 0 + "", 1, result);
+                await mmic.Send(exNot);
+            }
+            else if ((string)json.action.ToString() == "rejempate")
+            {
+                string message = "no";
+                Task<String> send_msg = Task.Run(() => Draw(game, message));
+                String result = send_msg.Result;
+                string auxok = @"""ok""";
+                string auxtrue = "true";
+                string aux = "{" + auxok + ":" + auxtrue + "}";
+                if (result.Equals(aux))
+                {
+                    result = "{'ok' : 'Empate rejeitado'}";
                 }
                 await mmic.Send(lce.NewContextRequest());
                 var exNot = lce.ExtensionNotification(0 + "", 0 + "", 1, result);

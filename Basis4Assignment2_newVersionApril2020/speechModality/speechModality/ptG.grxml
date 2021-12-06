@@ -7,11 +7,15 @@
       <item repeat="0-1"> <ruleref uri="#quit"/> <tag> out.quit = rules.quit; </tag></item>
       <item repeat="0-1"> <ruleref uri="#challenge"/> <tag> out.challenge = rules.challenge; </tag></item>
       <item repeat="0-1"> <ruleref uri="#mistake"/> <tag> out.mistake = rules.mistake; </tag></item>
+      <item repeat="0-1"> <ruleref uri="#accmistake"/> <tag> out.accmistake = rules.accmistake; </tag></item>
+      <item repeat="0-1"> <ruleref uri="#rejmistake"/> <tag> out.rejmistake = rules.rejmistake; </tag></item>
       <item repeat="0-1"> <ruleref uri="#list"/> <tag> out.list = rules.list; </tag></item>
       <item repeat="0-1"> <ruleref uri="#accept"/> <tag> out.accept = rules.accept; </tag></item>
       <item repeat="0-1"> <ruleref uri="#decline"/> <tag> out.decline = rules.decline; </tag></item>
       <item repeat="0-1"> <ruleref uri="#cancel"/> <tag> out.cancel = rules.cancel; </tag></item>
       <item repeat="0-1"> <ruleref uri="#empate"/> <tag> out.empate = rules.empate; </tag></item>
+      <item repeat="0-1"> <ruleref uri="#accempate"/> <tag> out.accempate = rules.accempate; </tag></item>
+      <item repeat="0-1"> <ruleref uri="#rejempate"/> <tag> out.rejempate = rules.rejempate; </tag></item>
 
     </one-of>
   </rule>
@@ -115,6 +119,21 @@
       </one-of>
     </item>
   </rule>
+  <rule id="accmistake">
+    <item>
+      <one-of>
+        <item> Podes jogar de novo <tag> out.action = "accengano"; </tag>
+        </item>
+      </one-of>
+    </item>
+  </rule>
+  <rule id="rejmistake">
+    <item>
+      <one-of>
+        <item>Não, não podes <tag> out.action = "rejengano"; </tag></item>
+      </one-of>
+    </item>
+  </rule>
   <rule id="list">
     <item>
       <one-of>
@@ -153,6 +172,24 @@
       <one-of>
         <item>
           Proponho empate <tag> out.action = "empate"; </tag>
+        </item>
+      </one-of>
+    </item>
+  </rule>
+  <rule id="accempate">
+    <item>
+      <one-of>
+        <item>
+          Aceito empate <tag> out.action = "accempate"; </tag>
+        </item>
+      </one-of>
+    </item>
+  </rule>
+  <rule id="rejempate">
+    <item>
+      <one-of>
+        <item>
+          Rejeito empate <tag> out.action = "rejempate"; </tag>
         </item>
       </one-of>
     </item>

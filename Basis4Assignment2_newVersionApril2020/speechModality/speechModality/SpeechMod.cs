@@ -78,20 +78,27 @@ namespace speechModality
             onRecognized(new SpeechEventArg() { Text = e.Result.Text, Confidence = e.Result.Confidence, Final = true });
 
             //SEND
-            // IMPORTANT TO KEEP THE FORMAT {"recognized":["SHAPE","COLOR"]}
-            string json = "{\n ";
-            foreach (var resultSemantic in e.Result.Semantics)
+            
+            if(e.Result.Confidence < 0.5)
             {
-                foreach (var key in resultSemantic.Value)
-                {
-                    json += "\"" + key.Key + "\": " + "\"" + key.Value.Value + "\",\n ";
-
-                }
+                tts.Speak("Não tenho a certeza da instrução. Pode repetir?");
             }
-            json = json.Substring(0, json.Length - 3);
-            json += "\n}";
-            var exNot = lce.ExtensionNotification(e.Result.Audio.StartTime + "", e.Result.Audio.StartTime.Add(e.Result.Audio.Duration) + "", e.Result.Confidence, json);
-            mmic.Send(exNot);
+            else
+            {
+                string json = "{\n ";
+                foreach (var resultSemantic in e.Result.Semantics)
+                {
+                    foreach (var key in resultSemantic.Value)
+                    {
+                        json += "\"" + key.Key + "\": " + "\"" + key.Value.Value + "\",\n ";
+
+                    }
+                }
+                json = json.Substring(0, json.Length - 3);
+                json += "\n}";
+                var exNot = lce.ExtensionNotification(e.Result.Audio.StartTime + "", e.Result.Audio.StartTime.Add(e.Result.Audio.Duration) + "", e.Result.Confidence, json);
+                mmic.Send(exNot);
+            }
         }
 
 
