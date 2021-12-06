@@ -71,6 +71,13 @@ namespace AppGui
                 message += (string)json.message.ToString();
                 Task<String> send_msg = Task.Run(() => SendMessage(game, message));
                 String result = send_msg.Result;
+                string auxok = @"""ok""";
+                string auxtrue = "true";
+                string aux = "{" + auxok + ":" + auxtrue + "}";
+                if (result.Equals(aux))
+                {
+                    result = "{'ok' : 'Mensagem enviada'}";
+                }
                 await mmic.Send(lce.NewContextRequest());
                 var exNot = lce.ExtensionNotification(0 + "", 0 + "", 1, result);
                 await mmic.Send(exNot);
@@ -79,6 +86,13 @@ namespace AppGui
             {
                 Task<String> resign = Task.Run(() => Resign(game));
                 String result = resign.Result;
+                string auxok = @"""ok""";
+                string auxtrue = "true";
+                string aux = "{" + auxok + ":" + auxtrue + "}";
+                if (result.Equals(aux))
+                {
+                    result = "{'ok' : 'Partida terminada'}";
+                }
                 await mmic.Send(lce.NewContextRequest());
                 var exNot = lce.ExtensionNotification(0 + "", 0 + "", 1, result);
                 await mmic.Send(exNot);
@@ -106,6 +120,13 @@ namespace AppGui
                 string message = "yes";
                 Task<String> send_msg = Task.Run(() => TakeBack(game, message));
                 String result = send_msg.Result;
+                string auxok = @"""ok""";
+                string auxtrue = "true";
+                string aux = "{" + auxok + ":" + auxtrue + "}";
+                if (result.Equals(aux))
+                {
+                    result = "{'ok' : 'Pedido enviado'}";
+                }
                 await mmic.Send(lce.NewContextRequest());
                 var exNot = lce.ExtensionNotification(0 + "", 0 + "", 1, result);
                 await mmic.Send(exNot);
@@ -135,11 +156,11 @@ namespace AppGui
 
                 if (String.IsNullOrEmpty(data))
                 {
-                    result = "Não";
+                    result = "{'ok' : 'Não'}";
                 }
                 else
                 {
-                    result = "Sim";
+                    result = "{'ok' : 'Sim'}";
                 }
                 var exNot = lce.ExtensionNotification(0 + "", 0 + "", 1, result);
                 await mmic.Send(exNot);
@@ -148,6 +169,13 @@ namespace AppGui
             {
                 Task<String> accept = Task.Run(() => Accept(game));
                 string result = accept.Result;
+                string auxok = @"""ok""";
+                string auxtrue = "true";
+                string aux = "{" + auxok + ":" + auxtrue + "}";
+                if (result.Equals(aux))
+                {
+                    result = "{'ok' : 'Desafio aceite'}";
+                }
                 System.Diagnostics.Process.Start("firefox.exe", "https://lichess.org/" + game);
                 await mmic.Send(lce.NewContextRequest());
                 var exNot = lce.ExtensionNotification(0 + "", 0 + "", 1, result);
@@ -157,6 +185,13 @@ namespace AppGui
             {
                 Task<String> decline = Task.Run(() => Decline(game));
                 string result = decline.Result;
+                string auxok = @"""ok""";
+                string auxtrue = "true";
+                string aux = "{" + auxok + ":" + auxtrue + "}";
+                if (result.Equals(aux))
+                {
+                    result = "{'ok' : 'Desafio recusado'}";
+                }
                 await mmic.Send(lce.NewContextRequest());
                 var exNot = lce.ExtensionNotification(0 + "", 0 + "", 1, result);
                 await mmic.Send(exNot);
@@ -185,6 +220,13 @@ namespace AppGui
 
                 Task<String> cancel = Task.Run(() => Cancel(game));
                 string result = cancel.Result;
+                string auxok = @"""ok""";
+                string auxtrue = "true";
+                string aux = "{" + auxok + ":" + auxtrue + "}";
+                if (result.Equals(aux))
+                {
+                    result = "{'ok' : 'Desafio cancelado'}";
+                }
                 await mmic.Send(lce.NewContextRequest());
                 var exNot = lce.ExtensionNotification(0 + "", 0 + "", 1, result);
                 await mmic.Send(exNot);
@@ -194,6 +236,13 @@ namespace AppGui
                 string message = "yes";
                 Task<String> send_msg = Task.Run(() => Draw(game, message));
                 String result = send_msg.Result;
+                string auxok = @"""ok""";
+                string auxtrue = "true";
+                string aux = "{" + auxok + ":" + auxtrue + "}";
+                if (result.Equals(aux))
+                {
+                    result = "{'ok' : 'Empate proposto'}";
+                }
                 await mmic.Send(lce.NewContextRequest());
                 var exNot = lce.ExtensionNotification(0 + "", 0 + "", 1, result);
                 await mmic.Send(exNot);

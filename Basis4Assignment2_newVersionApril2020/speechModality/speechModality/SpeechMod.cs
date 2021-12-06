@@ -109,54 +109,46 @@ namespace speechModality
         {
             var doc = XDocument.Parse(e.Message);
             var com = doc.Descendants("command").FirstOrDefault().Value;
-            Console.WriteLine(com);
-            if(com != "Sim" && com != "Não")
-            {
-                dynamic tojson2 = JsonConvert.DeserializeObject(com);
+            dynamic tojson2 = JsonConvert.DeserializeObject(com);
 
-                if (tojson2.ContainsKey("error"))
-                {
-                    Console.WriteLine(tojson2.error.ToString());
-                    if ("Not your turn, or game already over".Equals(tojson2.error.ToString()))
-                    {
-                        tts.Speak("Não é a tua vez de jogar");
-                    }
-                    else if (tojson2.error.ToString().Contains("Piece on"))
-                    {
-                        tts.Speak("Jogada inválida");
-                    }
-                    else if ("No such game".Equals(tojson2.error.ToString()))
-                    {
-                        tts.Speak("Jogo inexistente");
-                    }
-                    else if (tojson2.error.ToString().Contains("No piece"))
-                    {
-                        tts.Speak("Não há peça nessa posição");
-                    }
-                    else if (tojson2.error.ToString().Contains("Not my piece"))
-                    {
-                        tts.Speak("Essa peça não é tua");
-                    }
-                }
-                else if (tojson2.ContainsKey("ok"))
-                {
-                    if ("true".Equals(tojson2.ok.ToString()))
-                    {
-                        Console.Beep();
-                    }
-                }
-                else if (tojson2.ContainsKey("challenge"))
-                {
-                    Console.Beep();
-                    Console.Beep();
-                }
-            }
-            else
+            if (tojson2.ContainsKey("error"))
             {
-                tts.Speak(com);
+                if ("Not your turn, or game already over".Equals(tojson2.error.ToString()))
+                {
+                    tts.Speak("Não é a tua vez de jogar");
+                }
+                else if (tojson2.error.ToString().Contains("Piece on"))
+                {
+                    tts.Speak("Jogada inválida");
+                }
+                else if ("No such game".Equals(tojson2.error.ToString()))
+                {
+                    tts.Speak("Jogo inexistente");
+                }
+                else if (tojson2.error.ToString().Contains("No piece"))
+                {
+                    tts.Speak("Não há peça nessa posição");
+                }
+                else if (tojson2.error.ToString().Contains("Not my piece"))
+                {
+                    tts.Speak("Essa peça não é tua");
+                }
             }
-            
-            
+            else if (tojson2.ContainsKey("ok"))
+            {
+                if ("true".Equals(tojson2.ok.ToString()))
+                {
+                    Console.Beep();
+                }
+                else
+                {
+                    tts.Speak(tojson2.ok.ToString());
+                }      
+            }
+            else if (tojson2.ContainsKey("challenge"))
+            {
+                tts.Speak("Convite enviado!");
+            }
         }
     }
 }
