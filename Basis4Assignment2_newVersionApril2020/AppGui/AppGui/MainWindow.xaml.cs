@@ -26,6 +26,12 @@ namespace AppGui
         private MmiCommunication mmic;
         private string game = "";
 
+        // Lichess token - pako25
+        static public string token = "lip_I0iYfH1quLT2GUWlxrAq";
+
+        // Lichess token - TestarCaderno
+        //static public string token = "lip_I0iYfH1quLT2GUWlxrAq";
+
         public MainWindow()
         {
             InitializeComponent();
@@ -364,7 +370,7 @@ namespace AppGui
             };
             var content = new FormUrlEncodedContent(values);
             client.DefaultRequestHeaders.Authorization
-                            = new AuthenticationHeaderValue("Bearer", "lip_I0iYfH1quLT2GUWlxrAq");
+                            = new AuthenticationHeaderValue("Bearer", token);
             var result = await client.PostAsync(url, content);
             string resultContent = await result.Content.ReadAsStringAsync();
             return resultContent;
@@ -382,7 +388,7 @@ namespace AppGui
             };
             var content = new FormUrlEncodedContent(values);
             client.DefaultRequestHeaders.Authorization
-                            = new AuthenticationHeaderValue("Bearer", "lip_I0iYfH1quLT2GUWlxrAq");
+                            = new AuthenticationHeaderValue("Bearer", token);
             var result = await client.PostAsync(url, content);
             string resultContent = await result.Content.ReadAsStringAsync();
             return resultContent;
@@ -399,7 +405,7 @@ namespace AppGui
             };
             var content = new FormUrlEncodedContent(values);
             client.DefaultRequestHeaders.Authorization
-                            = new AuthenticationHeaderValue("Bearer", "lip_I0iYfH1quLT2GUWlxrAq");
+                            = new AuthenticationHeaderValue("Bearer", token);
             var result = await client.PostAsync(url, content);
             string resultContent = await result.Content.ReadAsStringAsync();
             return resultContent;
@@ -416,7 +422,7 @@ namespace AppGui
             };
             var content = new FormUrlEncodedContent(values);
             client.DefaultRequestHeaders.Authorization
-                            = new AuthenticationHeaderValue("Bearer", "lip_I0iYfH1quLT2GUWlxrAq");
+                            = new AuthenticationHeaderValue("Bearer", token);
             var result = await client.PostAsync(url, content);
             string resultContent = await result.Content.ReadAsStringAsync();
             return resultContent;
@@ -433,7 +439,7 @@ namespace AppGui
             };
             var content = new FormUrlEncodedContent(values);
             client.DefaultRequestHeaders.Authorization
-                            = new AuthenticationHeaderValue("Bearer", "lip_I0iYfH1quLT2GUWlxrAq");
+                            = new AuthenticationHeaderValue("Bearer", token);
             var result = await client.PostAsync(url, content);
             string resultContent = await result.Content.ReadAsStringAsync();
             return resultContent;
@@ -445,7 +451,7 @@ namespace AppGui
             var client = new HttpClient();
             var url = new Uri("https://lichess.org/api/challenge");
             client.DefaultRequestHeaders.Authorization
-                            = new AuthenticationHeaderValue("Bearer", "lip_I0iYfH1quLT2GUWlxrAq");
+                            = new AuthenticationHeaderValue("Bearer", token);
             var result = await client.GetAsync(url);
             string resultContent = await result.Content.ReadAsStringAsync();
             return resultContent;
@@ -462,7 +468,7 @@ namespace AppGui
             };
             var content = new FormUrlEncodedContent(values);
             client.DefaultRequestHeaders.Authorization
-                            = new AuthenticationHeaderValue("Bearer", "lip_I0iYfH1quLT2GUWlxrAq");
+                            = new AuthenticationHeaderValue("Bearer", token);
             var result = await client.PostAsync(url, content);
             string resultContent = await result.Content.ReadAsStringAsync();
             return resultContent;
@@ -479,7 +485,7 @@ namespace AppGui
             };
             var content = new FormUrlEncodedContent(values);
             client.DefaultRequestHeaders.Authorization
-                            = new AuthenticationHeaderValue("Bearer", "lip_I0iYfH1quLT2GUWlxrAq");
+                            = new AuthenticationHeaderValue("Bearer", token);
             var result = await client.PostAsync(url, content);
             string resultContent = await result.Content.ReadAsStringAsync();
             return resultContent;
@@ -496,7 +502,7 @@ namespace AppGui
             };
             var content = new FormUrlEncodedContent(values);
             client.DefaultRequestHeaders.Authorization
-                            = new AuthenticationHeaderValue("Bearer", "lip_I0iYfH1quLT2GUWlxrAq");
+                            = new AuthenticationHeaderValue("Bearer", token);
             var result = await client.PostAsync(url, content);
             string resultContent = await result.Content.ReadAsStringAsync();
             return resultContent;
@@ -513,7 +519,7 @@ namespace AppGui
             };
             var content = new FormUrlEncodedContent(values);
             client.DefaultRequestHeaders.Authorization
-                            = new AuthenticationHeaderValue("Bearer", "lip_I0iYfH1quLT2GUWlxrAq");
+                            = new AuthenticationHeaderValue("Bearer", token);
             var result = await client.PostAsync(url, content);
             string resultContent = await result.Content.ReadAsStringAsync();
             return resultContent;
